@@ -16,10 +16,10 @@ use the same format in a file of their own:
       ros__parameters:
         transforms: [scene_camera]
         scene_camera:
-          parent: base_link
-          child: scene_camera_link
-          xyz: [0.1, 0.0, 0.5]           # metres
-          quat_xyzw: [0.0, 0.0, 0.0, 1.0]
+          parent: arm_mount
+          child: scene_camera
+          xyz: [0.20, -0.50, 0.40]       # metres, child origin in parent
+          quat_xyzw: [1.0, 0.0, 0.0, 0.0]
 
 All of them go out in one latched message. A child named twice, in one file or
 across files, is refused: TF would keep whichever arrived last.
@@ -151,6 +151,7 @@ def publish(transforms: list[Transform]) -> None:
     # Imported here so --validate runs without ROS.
     import rclpy
     from geometry_msgs.msg import TransformStamped
+    from rclpy.executors import ExternalShutdownException
     from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 
     rclpy.init()
@@ -182,8 +183,8 @@ def publish(transforms: list[Transform]) -> None:
         node.get_logger().info(describe(t))
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass  # Ctrl-C, or SIGTERM from `docker stop`
 
 
 def main(argv: list[str] | None = None) -> int:
