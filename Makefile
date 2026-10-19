@@ -5,7 +5,7 @@
 #   make push TAG=v0.1.0
 REGISTRY ?= ghcr.io/rammp-org/rammp-tools
 TAG ?= dev
-IMAGES := foxglove
+IMAGES := foxglove static_tf
 
 .PHONY: build push $(IMAGES)
 
