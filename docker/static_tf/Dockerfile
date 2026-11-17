@@ -2,7 +2,7 @@
 # rammp-base already has rclpy, tf2_ros and PyYAML (from ros:humble); the one
 # thing added is the script. The robot's files are bind-mounted at
 # /config/robot/transforms by the deployment.
-FROM ghcr.io/rammp-org/rammp-base:2.1.0-jp6
+FROM ghcr.io/rammp-org/rammp-base:2.2.0-jp6
 
 COPY static_tf.py /opt/static_tf/static_tf.py
 
